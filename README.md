@@ -1,2 +1,2 @@
 # DLR
-Digitalización del libro recetario
+Digitalización del libro recetario.
