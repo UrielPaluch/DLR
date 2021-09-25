@@ -7,10 +7,11 @@ import re
 import pandas as pd
 from tkinter import filedialog
 import tkinter.font as font
-from tkinter import ttk
-from tkinter.font import Font, nametofont
-import os
-import sys
+#Comento los unused imports, si anda bien sin esto los borro
+#from tkinter import ttk
+#from tkinter.font import Font, nametofont
+#import os
+#import sys
 import pandas.io.formats.excel
 
 #Inicializo la variable pantalla
@@ -634,7 +635,7 @@ def seleccionoFecha():
     fechaFrame.configure(background='#cfcfcf')
 
     #Para que no se pueda cambiar el tamaño de la pantalla
-    fechaFrame.resizable(False, False)    
+    #fechaFrame.resizable(False, False)    
 
     #Texto seleccione fecha
     textoLabel = Label(fechaFrame, text="Seleccione la fecha de carga", font=18, bg ='#9e9e9e')
@@ -676,7 +677,7 @@ def pantallaMedicos():
     abmMedicosFrame.geometry("460x340")
 
     #Para que no se pueda cambiar el tamaño de la pantalla
-    abmMedicosFrame.resizable(False, False)  
+    #abmMedicosFrame.resizable(False, False)  
 
     #Texto seleccione fecha
     textoLabel = Label(abmMedicosFrame, text="Ingrese el nombre del médico", font=18, bg ='#d65891')
@@ -955,7 +956,7 @@ def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Nco
             database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(entryFormula).upper(), entryCant, int(Ncontrol))
 
 #Para que no se pueda cambiar el tamaño de la pantalla
-root.resizable(False, False)
+#root.resizable(False, False)
 
 #Tamaño de la pantalla
 root.geometry("1252x447")
@@ -1574,7 +1575,7 @@ def pantallaFormula():
     altaFormulaFrame.geometry("460x340")
 
     #Para que no se pueda cambiar el tamaño de la pantalla
-    altaFormulaFrame.resizable(False, False)  
+    #altaFormulaFrame.resizable(False, False)  
 
     #Texto seleccione fecha
     textoLabel = Label(altaFormulaFrame, text="Ingrese la fórmula", font=18, bg ='#89cb8f')
@@ -1718,7 +1719,7 @@ def pantallaPsico():
     framePantallaPsico.geometry("300x200")
 
     #Para que no se pueda cambiar el tamaño de la pantalla
-    framePantallaPsico.resizable(False, False)  
+    #framePantallaPsico.resizable(False, False)  
 
     #Texto titulo
     labelTituloPsico = Label(framePantallaPsico, text = 'Reporte L. Recetario', font=(18), bg ='#f5a326')
@@ -1901,7 +1902,7 @@ def pantallaPsico3():
     framePantallaPsico3.geometry("300x200")
 
     #Para que no se pueda cambiar el tamaño de la pantalla
-    framePantallaPsico3.resizable(False, False) 
+    #framePantallaPsico3.resizable(False, False) 
 
     #Texto titulo
     labelTituloPsico = Label(framePantallaPsico3, bg ='#d16e72', text = 'Reporte L. Contralor', font=(18))
