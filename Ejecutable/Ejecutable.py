@@ -1594,16 +1594,34 @@ def pantallaFormula():
     frameFormula.grid_propagate(False)
     frameFormula.pack()
 
+    #Texto nombre comercial
+    textoNombreComercial = Label(frameFormula, text = "Ingrese el nombre comercial", font = "14", bg = '#aad9af')
+    textoNombreComercial.grid(row = 0, column = 0, padx = 5, sticky=SW, pady = (10,0))
+    textoNombreComercial['font'] = myFont
+
     #Entry formula
     entryFormula = AutocompleteEntry(lista_formulas, frameFormula, width = 40, font=12)
-    entryFormula.grid(row = 0, column = 0, pady = 15, padx = 5)
+    entryFormula.grid(row = 1, column = 0, padx = 5)
     entryFormula['font'] = myFont
     entryFormula.bind('<KeyRelease>', cambioAltaFormulaFrame)
     entryFormula.bind('<Button-1>', cambioAltaFormulaFrame)
 
+    #Texto nombre DCI
+    textoNombreDCI = Label(frameFormula, text = "Ingrese el nombre DCI", font = "14", bg = '#aad9af')
+    textoNombreDCI.grid(row = 2, column = 0, padx = 5, sticky=SW, pady = (10,0))
+    textoNombreDCI['font'] = myFont
+
+    #Entry formula
+    entryFormulaDCI = AutocompleteEntry(lista_formulas, frameFormula, width = 40, font=12)
+    entryFormulaDCI.grid(row = 3, column = 0, padx = 5)
+    entryFormulaDCI['font'] = myFont
+    #entryFormulaDCI.bind('<KeyRelease>', cambioAltaFormulaFrame)
+    #entryFormulaDCI.bind('<Button-1>', cambioAltaFormulaFrame)
+
+
     esPsico3 = IntVar()
     checkPsico3 = Checkbutton(frameFormula, variable = esPsico3, bg = '#aad9af', activebackground='#aad9af', onvalue = 1, offvalue = 0)
-    checkPsico3.grid(row = 0, column = 1, padx = 5)
+    checkPsico3.grid(row = 1, column = 1, padx = 5)
     #Onhover
     CreateToolTip(checkPsico3, text = "¿Es Psico3?")
 
