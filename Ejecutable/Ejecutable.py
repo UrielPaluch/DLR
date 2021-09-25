@@ -21,6 +21,7 @@ pantalla = ''
 class AutocompleteEntry(Entry):
     global myFont
     global pantalla
+    global idDCI
 
     def __init__(self, lista, *args, **kwargs):
         Entry.__init__(self, *args, **kwargs)
@@ -40,7 +41,7 @@ class AutocompleteEntry(Entry):
         self.lb_up = False
         
     def changed(self, name, index, mode):  
-
+        
         if self.var.get() == '':
             self.lb.destroy()
             self.lb_up = False
@@ -70,12 +71,16 @@ class AutocompleteEntry(Entry):
                     self.lb_up = False
         
     def selection(self, event):
+        #Con esto consigo el ID que corresponde al DCI. 
+        idDCI = self.lista.index(self.lb.get(ACTIVE))
 
         if self.lb_up:
             self.var.set(self.lb.get(ACTIVE))
             self.lb.destroy()
             self.lb_up = False
             self.icursor(END)
+        
+        
     
     def end(self, event):
         if self.lb_up:
@@ -86,6 +91,7 @@ class AutocompleteEntry(Entry):
     def up(self, event):
         global primerIndex
         global ultimoIndex
+        
         if self.lb_up:
             if self.lb.curselection() == ():
                 index = '0'
@@ -569,7 +575,6 @@ for i in range(0, len(DCIformulas),1):
     lista_DCIformulas.append(DCIformulas[i][0])
 #Creo un dataframe
 dfDCIFormula = pd.DataFrame(lista_DCIformulas, columns=['DCIFormula'])
-print(dfDCIFormula.head())
 
 DCIformulas3 = database.traigoDCIformulas3()
 #Creo una lista bien con los DCI
@@ -578,7 +583,6 @@ for i in range(0, len(DCIformulas3),1):
     lista_DCIformulas3.append(DCIformulas3[i][0])
 #Creo un dataframe
 dfDCIFormula3 = pd.DataFrame(lista_DCIformulas3, columns=['DCIFormula'])
-print(dfDCIFormula3.head())
 
 formulas3 = database.traigoFormulas3()
 #Creo una lista bien con todas las formulas
