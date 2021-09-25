@@ -165,6 +165,24 @@ class DataBase():
         except Exception as e:
             m_box.showerror('Error', 'No se pudo ejecutar la consulta ' + str(e))
     
+    def traigoDCIformulas(self):
+        sql = 'SELECT DCI FROM tabla_formula'
+
+        try:
+            self.cursor.execute(sql)
+            return(self.cursor.fetchall())
+        except Exception as e:
+            m_box.showerror('Error', 'No se pudo ejecutar la consulta ' + str(e))
+
+    def traigoDCIformulas3(self):
+        sql = 'SELECT DCI FROM tabla_formula3'
+
+        try:
+            self.cursor.execute(sql)
+            return(self.cursor.fetchall())
+        except Exception as e:
+            m_box.showerror('Error', 'No se pudo ejecutar la consulta ' + str(e))
+
     def traigoFormulas3(self):
         sql = 'SELECT formula3 FROM tabla_formula3'
 
@@ -543,6 +561,24 @@ for i in range(0, len(formulas),1):
     lista_formulas.append(formulas[i][0])
 #Creo un dataframe
 dfFormula = pd.DataFrame(lista_formulas, columns=['Formula'])
+
+DCIformulas = database.traigoDCIformulas()
+#Creo una lista bien con los DCI
+lista_DCIformulas = []
+for i in range(0, len(DCIformulas),1):
+    lista_DCIformulas.append(DCIformulas[i][0])
+#Creo un dataframe
+dfDCIFormula = pd.DataFrame(lista_DCIformulas, columns=['DCIFormula'])
+print(dfDCIFormula.head())
+
+DCIformulas3 = database.traigoDCIformulas3()
+#Creo una lista bien con los DCI
+lista_DCIformulas3 = []
+for i in range(0, len(DCIformulas3),1):
+    lista_DCIformulas3.append(DCIformulas3[i][0])
+#Creo un dataframe
+dfDCIFormula3 = pd.DataFrame(lista_DCIformulas3, columns=['DCIFormula'])
+print(dfDCIFormula3.head())
 
 formulas3 = database.traigoFormulas3()
 #Creo una lista bien con todas las formulas
