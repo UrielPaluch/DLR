@@ -51,27 +51,25 @@ lbOhori.place(x=180,y=113)
 # BOTON DE GUARDADO  
 def guardar (): # guarda en la lista y cierra la ventana
 
-    thoja = lbformato.get() # Tipo de hoja
-    #tletra = NumLetra.get() # tamanio de letra
-    orivert = lbOvert.get() # orientacion vertical
-    orihor = lbOhori.get() # orientacion horizontal
+    lbformato.get() # Tipo de hoja
+    #NumLetra.get() # tamanio de letra
+    lbOvert.get() # orientacion vertical
+    lbOhori.get() # orientacion horizontal
+# que vuelva a mostar la entrada y no corte
+    try:
+        float(NumLetra.get())   
+    except ValueError:    
+        tkinter.messagebox.showerror('Error', 'Ingrese un numero')
 
-    def solonum():
-        try:
-            float(NumLetra.get())
-        except ValueError:
-            tkinter.messagebox.showerror('Error', 'Ingrese un numero')
-        return
+
+    if lbformato.get() == 'A4':
+        worksheet.set_paper(9)
+    elif lbformato.get() == 'A5':
+        worksheet.set_paper(11)
 
     tkinter.messagebox.showinfo('Guarado', 'La configuracion ha sido guardada correctamente')
     window.destroy() # cierra la ventana y guarda
 
-
-
-    if thoja == 'A4':
-        worksheet.set_paper(9)
-    elif thoja == 'A5':
-        worksheet.set_paper(11)
 
 pngGuardar = PhotoImage(file='C:/Users/Pedri/Desktop/Zurich/DLR/Iconos/discket.png')
 # Esto permite poner la imagen como boton
