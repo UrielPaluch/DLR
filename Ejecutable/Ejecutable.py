@@ -14,14 +14,14 @@ import tkinter.font as font
 #import sys
 import pandas.io.formats.excel
 
-#Inicializo la variable pantalla
+#Inicializo las variables para que puedan ser globales
 pantalla = ''
+idDCI = []
 #--------------------------------------------------------------------------------------------------#
 #Autocomplete
 class AutocompleteEntry(Entry):
     global myFont
     global pantalla
-    global idDCI
 
     def __init__(self, lista, *args, **kwargs):
         Entry.__init__(self, *args, **kwargs)
@@ -71,8 +71,11 @@ class AutocompleteEntry(Entry):
                     self.lb_up = False
         
     def selection(self, event):
-        #Con esto consigo el ID que corresponde al DCI. 
-        idDCI = self.lista.index(self.lb.get(ACTIVE))
+        if self.lista != lista_medicos:
+            #Con esto consigo el ID que corresponde al DCI. 
+            global idDCI 
+            idDCI.append(self.lista.index(self.lb.get(ACTIVE)))
+            print(idDCI)
 
         if self.lb_up:
             self.var.set(self.lb.get(ACTIVE))
@@ -809,6 +812,7 @@ def grabarMedicamento():
     global ultimoID
     global dfFormula3
     global ultimaFecha
+    global idDCI
 
     try:
         int(cant1.get())
@@ -835,13 +839,13 @@ def grabarMedicamento():
         control = str(ultimoID) + '1'
         control = int(control)
 
-        database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula1.get(), cant1.get(), control)
+        database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
         
         filtro3 = dfFormula3[dfFormula3['Formula3'].str.contains(entryFormula1.get())]
         
         filtro4 = valildarFiltro2(filtro3, entryFormula1.get(), 'Formula3')
         if filtro4 == True:
-            database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula1.get(), cant1.get(), control)
+            database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
     else:
         m_box.showerror('Error', "Ingrese una cantidad")
         return()
@@ -851,31 +855,33 @@ def grabarMedicamento():
         control = str(ultimoID) + '2'
         control = int(control)
 
-        database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula2.get(), cant2.get(), control)
+        database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
 
         filtro3 = dfFormula3[dfFormula3['Formula3'].str.contains(entryFormula2.get())]
         
         filtro4 = valildarFiltro2(filtro3, entryFormula2.get(), 'Formula3')
         if filtro4 == True:
-            database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula2.get(), cant2.get(), control)
+            database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
 
     if cant3.get() != '0':
 
         control = str(ultimoID) + '3'
         control = int(control)
 
-        database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula3.get(), cant3.get(), control)
+        database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
         
         filtro3 = dfFormula3[dfFormula3['Formula3'].str.contains(entryFormula3.get())]
         
         filtro4 = valildarFiltro2(filtro3, entryFormula3.get(), 'Formula3')
         if filtro4 == True:
-            database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula3.get(), cant3.get(), control)
+            database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
     
     varIDreceta.set(ultimoID+1)
 
     ultimaFecha = datetime.strptime(Calendario.get_date(), '%d-%m-%Y')
     
+    #Limpio la lista
+    idDCI = []
     limpioLosCampos()
 
 def existeMedico(nombre):
@@ -1652,7 +1658,7 @@ def pantallaFormula():
     textoNombreDCI['font'] = myFont
 
     #Entry formula
-    entryFormulaDCI = AutocompleteEntry(lista_formulas, frameFormula, width = 40, font=12)
+    entryFormulaDCI = AutocompleteEntry(lista_DCIformulas, frameFormula, width = 40, font=12)
     entryFormulaDCI.grid(row = 3, column = 0, padx = 5)
     entryFormulaDCI['font'] = myFont
     #entryFormulaDCI.bind('<KeyRelease>', cambioAltaFormulaFrame)
@@ -1678,6 +1684,8 @@ def pantallaFormula():
     CreateToolTip(btnGrabar, text = "Grabar")
 
     def existeFormula():
+        global idDCI
+
         formula = str(entryFormula.get()).upper()
         filtro = dfFormula[dfFormula['Formula'].str.contains(formula)]
 
@@ -1702,7 +1710,10 @@ def pantallaFormula():
 
         #Pongo los campos vacios
         entryFormula.delete(0, 'end')
-        checkPsico3.deselect()    
+        checkPsico3.deselect()
+
+        #Vacío la lista idDCI
+        idDCI = []
 
         altaFormulaFrame.focus_force()
 
