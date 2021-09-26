@@ -1917,7 +1917,7 @@ def guardarDatos(desde, hasta):
         writer = pd.ExcelWriter(directory + "/" + str(desde) + "-" + str(hasta) + " Libro recetario.xlsx", engine='xlsxwriter')
 
         # Convert the dataframe to an XlsxWriter Excel object.
-        dfDatos.to_excel(writer, sheet_name='Sheet1')
+        dfDatos.to_excel(writer, sheet_name='Sheet1', header = False)
 
         # Get the xlsxwriter workbook and worksheet objects.
         workbook  = writer.book
@@ -2062,7 +2062,7 @@ def guardarDatos3(desde, hasta):
     dfDatos.drop('ignorar', axis = 1, inplace = True)
     dfDatos.drop('Control', axis = 1, inplace = True)
     
-    #Esto es lo que quiere Agnese
+    #Esto es para que se ponga solo el día y el mes
     dfDatos['Fecha'].replace({'-2020':''}, regex = True, inplace = True)
     dfDatos['Fecha'].replace({'-2021':''}, regex = True, inplace = True)
     dfDatos['Fecha'].replace({'-2022':''}, regex = True, inplace = True)
