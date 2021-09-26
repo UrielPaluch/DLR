@@ -1917,6 +1917,7 @@ def guardarDatos(desde, hasta):
         writer = pd.ExcelWriter(directory + "/" + str(desde) + "-" + str(hasta) + " Libro recetario.xlsx", engine='xlsxwriter')
 
         # Convert the dataframe to an XlsxWriter Excel object.
+        #Header = False para que no tenga el titulo. Esto es lo que quería Agnese
         dfDatos.to_excel(writer, sheet_name='Sheet1', header = False)
 
         # Get the xlsxwriter workbook and worksheet objects.
@@ -1958,7 +1959,7 @@ def guardarDatos(desde, hasta):
         #Fórmula
         worksheet.set_column('D:D', 48.86, cell_format_2)
         #Cantidad
-        worksheet.set_column('E:E', 4.86, cell_format)
+        worksheet.set_column('E:E', 2, cell_format)
 
         #Para cambiar las filas
         worksheet.set_default_row(29.15)
