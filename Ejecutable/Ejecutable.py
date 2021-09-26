@@ -237,15 +237,16 @@ class DataBase():
         except Exception as e:
             m_box.showerror('Error', 'No se pudo ejecutar la consulta ' + str(e))
 
-    def grabarFormula(self, formula):
+    def grabarFormula(self, formula, dci = NONE):
         global dfFormula
         lista_formulas.append(formula)
+        lista_DCIformulas.append(dci)
         dfFormula = pd.DataFrame(lista_formulas, columns=['Formula'])
 
-        sql = 'INSERT INTO tabla_formula (formula) VALUES (%s)'
+        sql = 'INSERT INTO tabla_formula (formula, DCI) VALUES (%s, %s)'
 
         try:
-            self.cursor.execute(sql, (formula))
+            self.cursor.execute(sql, (formula, dci))
             self.connection.commit()
         except Exception as e:
             m_box.showerror('Error', 'No se pudo ejecutar la consulta ' + str(e))
@@ -839,13 +840,19 @@ def grabarMedicamento():
         control = str(ultimoID) + '1'
         control = int(control)
 
-        database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
-        
+        if str(lista_DCIformulas[idDCI[0]]) != "":
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
+        else:
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula1.get(), cant1.get(), control)
+
         filtro3 = dfFormula3[dfFormula3['Formula3'].str.contains(entryFormula1.get())]
         
         filtro4 = valildarFiltro2(filtro3, entryFormula1.get(), 'Formula3')
         if filtro4 == True:
-            database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
+            if str(lista_DCIformulas[idDCI[0]]) != "":
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
+            else:
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula1.get(), cant1.get(), control)
     else:
         m_box.showerror('Error', "Ingrese una cantidad")
         return()
@@ -855,26 +862,38 @@ def grabarMedicamento():
         control = str(ultimoID) + '2'
         control = int(control)
 
-        database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
+        if str(lista_DCIformulas[idDCI[1]]) != "":
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
+        else:
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula2.get(), cant2.get(), control)
 
         filtro3 = dfFormula3[dfFormula3['Formula3'].str.contains(entryFormula2.get())]
         
         filtro4 = valildarFiltro2(filtro3, entryFormula2.get(), 'Formula3')
         if filtro4 == True:
-            database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
+            if str(lista_DCIformulas[idDCI[1]]) != "":
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
+            else:
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula2.get(), cant2.get(), control)
 
     if cant3.get() != '0':
 
         control = str(ultimoID) + '3'
         control = int(control)
 
-        database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
+        if str(lista_DCIformulas[idDCI[2]]) != "":
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
+        else:
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula3.get(), cant3.get(), control)
         
         filtro3 = dfFormula3[dfFormula3['Formula3'].str.contains(entryFormula3.get())]
         
         filtro4 = valildarFiltro2(filtro3, entryFormula3.get(), 'Formula3')
         if filtro4 == True:
-            database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
+            if str(lista_DCIformulas[idDCI[2]]) != "":
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
+            else:
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula3.get(), cant3.get(), control)
     
     varIDreceta.set(ultimoID+1)
 
@@ -1661,8 +1680,8 @@ def pantallaFormula():
     entryFormulaDCI = AutocompleteEntry(lista_DCIformulas, frameFormula, width = 40, font=12)
     entryFormulaDCI.grid(row = 3, column = 0, padx = 5)
     entryFormulaDCI['font'] = myFont
-    #entryFormulaDCI.bind('<KeyRelease>', cambioAltaFormulaFrame)
-    #entryFormulaDCI.bind('<Button-1>', cambioAltaFormulaFrame)
+    entryFormulaDCI.bind('<KeyRelease>', cambioAltaFormulaFrame)
+    entryFormulaDCI.bind('<Button-1>', cambioAltaFormulaFrame)
 
 
     esPsico3 = IntVar()
@@ -1687,6 +1706,7 @@ def pantallaFormula():
         global idDCI
 
         formula = str(entryFormula.get()).upper()
+        dci = str(entryFormulaDCI.get()).upper()
         filtro = dfFormula[dfFormula['Formula'].str.contains(formula)]
 
         if formula == '':
@@ -1705,7 +1725,7 @@ def pantallaFormula():
         if esPsico3.get() == 1:
             database.grabarFormula3(formula)
 
-        database.grabarFormula(formula)
+        database.grabarFormula(formula, dci)
         m_box.showinfo('Aviso!', 'Archivo guardado exitosamente')
 
         #Pongo los campos vacios
