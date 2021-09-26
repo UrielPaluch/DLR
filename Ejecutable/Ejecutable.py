@@ -1637,7 +1637,7 @@ def pantallaFormula():
     altaFormulaFrame.iconbitmap("Iconos/icono.ico")
 
     #Selecciono el tamaño de la pantalla
-    altaFormulaFrame.geometry("460x340")
+    altaFormulaFrame.geometry("460x460")
 
     #Para que no se pueda cambiar el tamaño de la pantalla
     altaFormulaFrame.resizable(False, False)  
@@ -1654,7 +1654,7 @@ def pantallaFormula():
     #Creo un frame para el entry y para el checkbox
     frameFormula = Frame(altaFormulaFrame, bg = '#aad9af')
     #Si no le pongo width y height al frame no me sale el listbox para el predictivo
-    frameFormula['height'] = 280
+    frameFormula['height'] = 400
     frameFormula['width'] = 450
     frameFormula.grid_propagate(False)
     frameFormula.pack()
@@ -1737,8 +1737,6 @@ def pantallaFormula():
 
         altaFormulaFrame.focus_force()
 
-
-    
 
     def clickerGrabar(event):
         existeFormula()
