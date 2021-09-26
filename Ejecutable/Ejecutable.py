@@ -1,3 +1,4 @@
+import textwrap
 from tkinter import *
 from datetime import timedelta, date, datetime
 from tkcalendar import *
@@ -1933,6 +1934,12 @@ def guardarDatos(desde, hasta):
         cell_format_2.set_align('left')
         cell_format_2.set_align('bottom')
 
+        #Formateo la columna formula
+        cell_format_formula = workbook.add_format({'text_wrap': True})
+        cell_format_formula.set_font_size(11)
+        cell_format_formula.set_align('left')
+        cell_format_formula.set_align('center')
+
         #Para que se ponga la hoja A5
         worksheet.set_paper(11)
         #Margenes
@@ -1954,7 +1961,7 @@ def guardarDatos(desde, hasta):
         #Fecha
         worksheet.set_column('C:C', 7.14, cell_format)
         #Fórmula
-        worksheet.set_column('D:D', 48.86, cell_format_2)
+        worksheet.set_column('D:D', 48.86, cell_format_formula)
         #Cantidad
         worksheet.set_column('E:E', 2, cell_format_2)
 
