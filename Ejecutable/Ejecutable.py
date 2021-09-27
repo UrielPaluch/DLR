@@ -17,7 +17,6 @@ import pandas.io.formats.excel
 
 #Inicializo las variables para que puedan ser globales
 pantalla = ''
-idDCI = []
 #--------------------------------------------------------------------------------------------------#
 #Autocomplete
 class AutocompleteEntry(Entry):
@@ -72,11 +71,6 @@ class AutocompleteEntry(Entry):
                     self.lb_up = False
         
     def selection(self, event):
-        if self.lista != lista_medicos:
-            #Con esto consigo el ID que corresponde al DCI. 
-            global idDCI 
-            idDCI.append(self.lista.index(self.lb.get(ACTIVE)))
-
         if self.lb_up:
             self.var.set(self.lb.get(ACTIVE))
             self.lb.destroy()
@@ -840,8 +834,10 @@ def grabarMedicamento():
         control = str(ultimoID) + '1'
         control = int(control)
 
-        if str(lista_DCIformulas[idDCI[0]]) != "":
-            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
+        
+        idDCI_aux = buscarIDdelDCI(entryFormula1.get(), lista_formulas)
+        if str(lista_DCIformulas[idDCI_aux]) != "":
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula1.get()), cant1.get(), control)
         else:
             database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula1.get(), cant1.get(), control)
 
@@ -849,8 +845,8 @@ def grabarMedicamento():
         
         filtro4 = valildarFiltro2(filtro3, entryFormula1.get(), 'Formula3')
         if filtro4 == True:
-            if str(lista_DCIformulas[idDCI[0]]) != "":
-                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
+            if str(lista_DCIformulas[idDCI[idDCI_aux]]) != "":
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula1.get()), cant1.get(), control)
             else:
                 database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula1.get(), cant1.get(), control)
     else:
@@ -862,8 +858,9 @@ def grabarMedicamento():
         control = str(ultimoID) + '2'
         control = int(control)
 
-        if str(lista_DCIformulas[idDCI[1]]) != "":
-            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
+        idDCI_aux = buscarIDdelDCI(entryFormula2.get(), lista_formulas)
+        if str(lista_DCIformulas[idDCI_aux]) != "":
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula2.get()), cant2.get(), control)
         else:
             database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula2.get(), cant2.get(), control)
 
@@ -871,8 +868,8 @@ def grabarMedicamento():
         
         filtro4 = valildarFiltro2(filtro3, entryFormula2.get(), 'Formula3')
         if filtro4 == True:
-            if str(lista_DCIformulas[idDCI[1]]) != "":
-                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
+            if str(lista_DCIformulas[idDCI_aux]) != "":
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula2.get()), cant2.get(), control)
             else:
                 database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula2.get(), cant2.get(), control)
 
@@ -881,8 +878,9 @@ def grabarMedicamento():
         control = str(ultimoID) + '3'
         control = int(control)
 
-        if str(lista_DCIformulas[idDCI[2]]) != "":
-            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
+        idDCI_aux = buscarIDdelDCI(entryFormula3.get(), lista_formulas)
+        if str(lista_DCIformulas[idDCI_aux]) != "":
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula3.get()), cant3.get(), control)
         else:
             database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula3.get(), cant3.get(), control)
         
@@ -890,8 +888,8 @@ def grabarMedicamento():
         
         filtro4 = valildarFiltro2(filtro3, entryFormula3.get(), 'Formula3')
         if filtro4 == True:
-            if str(lista_DCIformulas[idDCI[2]]) != "":
-                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
+            if str(lista_DCIformulas[idDCI_aux]) != "":
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula3.get()), cant3.get(), control)
             else:
                 database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula3.get(), cant3.get(), control)
     
@@ -1156,12 +1154,13 @@ def clickerBuscar(event):
         #Pongo manualmente las cantidades en cero
         entryCant1.delete(0, 'end')
 
+        formula1 = dfDatos['formula'][0]
+
         #Medio catinga esto. Es hasta tener la base de datos relacional
         #Toma lo que esta despues de la coma
         text = formula1
         head, sep, formula1 = text.partition(', ')
 
-        formula1 = dfDatos['formula'][0]
         entryFormula1.insert(0, formula1)
 
         #Para saber si es de lista 3
