@@ -52,28 +52,27 @@ lbOhori.place(x=180,y=113)
 def guardar (): # guarda en la lista y cierra la ventana
 
     lbformato.get() # Tipo de hoja
-    #NumLetra.get() # tamanio de letra
+    NumLetra.get() # tamanio de letra
     lbOvert.get() # orientacion vertical
     lbOhori.get() # orientacion horizontal
-# que vuelva a mostar la entrada y no corte
     try:
         float(NumLetra.get())   
     except ValueError:    
         tkinter.messagebox.showerror('Error', 'Ingrese un numero')
 
-
     if lbformato.get() == 'A4':
         worksheet.set_paper(9)
     elif lbformato.get() == 'A5':
         worksheet.set_paper(11)
-
-    tkinter.messagebox.showinfo('Guarado', 'La configuracion ha sido guardada correctamente')
-    window.destroy() # cierra la ventana y guarda
+        
+    if float(NumLetra.get()):
+        tkinter.messagebox.showinfo('Guarado', 'La configuracion ha sido guardada correctamente')
+        window.destroy() # cierra la ventana y guarda
 
 
 pngGuardar = PhotoImage(file='C:/Users/Pedri/Desktop/Zurich/DLR/Iconos/discket.png')
 # Esto permite poner la imagen como boton
-savebtn = Button(window, image = pngGuardar, command=guardar, bg='#ADD8E6',activebackground= '#ADD8E6' , borderwidth=0)
+savebtn = Button(window, image = pngGuardar, command= guardar, bg='#ADD8E6',activebackground= '#ADD8E6' , borderwidth=0)
 '''state=DISABLED Esto bloquea el boton, estaria bueno agregarlo cuando no hay nada tipeado''' 
 savebtn.place(x= 240,y=155)
 
