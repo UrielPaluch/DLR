@@ -1766,9 +1766,11 @@ def pantallaFormula():
     def existeFormula():
         global idDCI
 
-        formula = str(entryFormula.get()).upper()
+        formula = str(entryFormula.get().replace(",", " -")).upper()
         dci = str(entryFormulaDCI.get()).upper()
         filtro = dfFormula[dfFormula['Formula'].str.contains(formula)]
+
+        print(formula)
 
         if formula == '':
             m_box.showerror('Error', "La formula no puede ser vacia")
@@ -1791,6 +1793,7 @@ def pantallaFormula():
 
         #Pongo los campos vacios
         entryFormula.delete(0, 'end')
+        entryFormulaDCI.delete(0, 'end')
         checkPsico3.deselect()
 
         #Vacío la lista idDCI
@@ -1840,6 +1843,7 @@ def pantallaFormula():
 
         #Pongo los campos vacios
         entryFormula.delete(0, 'end')
+        entryFormulaDCI.delete(0, 'end')
 
         #Para que el cursor se ponga en el Nombre del médico
         entryFormula.focus_set()
