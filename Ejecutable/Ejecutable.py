@@ -1124,9 +1124,15 @@ def clickerBuscar(event):
         entryCant1.delete(0, 'end')
 
         formula1 = dfDatos['formula'][0]
-        entryFormula1.insert(0, formula1)
 
-        formula1Lista3 = esLista3(formula1)
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula1
+        head, sep, tail = text.partition(', ')
+
+        entryFormula1.insert(0, tail)
+
+        formula1Lista3 = esLista3(tail)
 
         try:
             #Para que no se abra el listbox
@@ -1142,6 +1148,11 @@ def clickerBuscar(event):
     if len(dfDatos) == 2:
         #Pongo manualmente las cantidades en cero
         entryCant1.delete(0, 'end')
+
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula1
+        head, sep, formula1 = text.partition(', ')
 
         formula1 = dfDatos['formula'][0]
         entryFormula1.insert(0, formula1)
@@ -1165,6 +1176,11 @@ def clickerBuscar(event):
             control3 = control
             #Pongo manualmente en cero las cantidades
             entryCant3.delete(0, 'end')
+
+            #Medio catinga esto. Es hasta tener la base de datos relacional
+            #Toma lo que esta despues de la coma
+            text = formula2
+            head, sep, formula2 = text.partition(', ')
             
             entryFormula3.insert(0, formula2)
             entryCant3.insert(0, cant2_aux)
@@ -1180,6 +1196,11 @@ def clickerBuscar(event):
             control2 = control
             #Pongo manualmente en cero las cantidades
             entryCant2.delete(0, 'end')
+
+            #Medio catinga esto. Es hasta tener la base de datos relacional
+            #Toma lo que esta despues de la coma
+            text = formula2
+            head, sep, formula2 = text.partition(', ')
 
             entryFormula2.insert(0, formula2)
             entryCant2.insert(0, cant2_aux)
@@ -1201,8 +1222,13 @@ def clickerBuscar(event):
         entryCant2.delete(0, 'end')
         entryCant3.delete(0, 'end')
 
-
         formula1 = dfDatos['formula'][0]
+
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula1
+        head, sep, formula1 = text.partition(', ')
+
         entryFormula1.insert(0, formula1)
 
         formula1Lista3 = esLista3(formula1)
@@ -1211,6 +1237,12 @@ def clickerBuscar(event):
         entryCant1.insert(0, cant1_aux)
 
         formula2 = dfDatos['formula'][1]
+
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula2
+        head, sep, formula2 = text.partition(', ')
+
         entryFormula2.insert(0, formula2)
 
         formula2Lista3 = esLista3(formula2)
@@ -1219,6 +1251,12 @@ def clickerBuscar(event):
         entryCant2.insert(0, cant2_aux)
 
         formula3 = dfDatos['formula'][2]
+
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula3
+        head, sep, formula3 = text.partition(', ')
+
         entryFormula3.insert(0, formula3)
 
         formula3Lista3 = esLista3(formula3)
@@ -1433,10 +1471,7 @@ def clickerGrabar(event):
                     m_box.showinfo('Aviso','O ponga la cantidad en cero')
                     return()
                 
-                if str(lista_DCIformulas[idDCI[0]]) == "":
-                    database.actualizoPsico(nombreMedico, str(lista_DCIformulas[idDCI[0]] + ", " + entryFormula1.get()).upper(), entryCant1.get(), int(control1))
-                else:
-                    database.actualizoPsico(nombreMedico, str(entryFormula1.get()).upper(), entryCant1.get(), int(control1))
+                database.actualizoPsico(nombreMedico, str(entryFormula1.get()).upper(), entryCant1.get(), int(control1))
                 
                 ABMpsico3(formula1Lista3, formula1, nombreMedico, entryFormula1.get(), entryCant1.get(), control1, idReceta)
 
@@ -1545,7 +1580,6 @@ CreateToolTip(btnGrabar, text = "Grabar")
 def clickerBorrar(event):
     global myFont
     
-
     frameLogin = Toplevel(bg = '#e0bdfa')
 
     #Cambio el icono
