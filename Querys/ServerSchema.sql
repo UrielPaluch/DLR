@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `tabla_formula`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tabla_formula` (
   `id_formula` int NOT NULL AUTO_INCREMENT,
-  `formula` varchar(45) DEFAULT NULL,
-  `DCI` varchar(45) DEFAULT NULL,
+  `formula` varchar(98) DEFAULT NULL,
+  `DCI` varchar(98) DEFAULT NULL,
   PRIMARY KEY (`id_formula`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2595 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -49,8 +49,8 @@ DROP TABLE IF EXISTS `tabla_formula3`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tabla_formula3` (
   `idtabla_formula3` int NOT NULL AUTO_INCREMENT,
-  `formula3` varchar(45) DEFAULT NULL,
-  `DCI` varchar(45) DEFAULT NULL,
+  `formula3` varchar(98) DEFAULT NULL,
+  `DCI` varchar(98) DEFAULT NULL,
   PRIMARY KEY (`idtabla_formula3`)
 ) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -101,11 +101,11 @@ CREATE TABLE `tabla_psico` (
   `id_receta` int DEFAULT NULL,
   `nombre_medico` varchar(45) DEFAULT NULL,
   `fecha` varchar(45) DEFAULT NULL,
-  `formula` varchar(45) DEFAULT NULL,
+  `formula` varchar(98) DEFAULT NULL,
   `cant` int DEFAULT NULL,
   `control` int DEFAULT NULL,
   PRIMARY KEY (`ignorar`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,6 +114,7 @@ CREATE TABLE `tabla_psico` (
 
 LOCK TABLES `tabla_psico` WRITE;
 /*!40000 ALTER TABLE `tabla_psico` DISABLE KEYS */;
+INSERT INTO `tabla_psico` VALUES (1,500000,'Eduardo Vainstein','21-12-2020','ibu 400 x 30',2,5000001),(2,500001,'ABAD ANDREA','21-12-2020','CEFTRIAXONA, ACANTEX 1 G IM F.A.X 3',1,5000011);
 /*!40000 ALTER TABLE `tabla_psico` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,7 +130,7 @@ CREATE TABLE `tabla_psico3` (
   `id_receta` int DEFAULT NULL,
   `nombre_medico` varchar(45) DEFAULT NULL,
   `fecha` varchar(45) DEFAULT NULL,
-  `formula` varchar(45) DEFAULT NULL,
+  `formula` varchar(98) DEFAULT NULL,
   `cant` int DEFAULT NULL,
   `control` int DEFAULT NULL,
   PRIMARY KEY (`ignorar`),
@@ -155,4 +156,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-09-26 22:38:23
+-- Dump completed on 2021-09-26 23:10:19
