@@ -75,7 +75,6 @@ class AutocompleteEntry(Entry):
             #Con esto consigo el ID que corresponde al DCI. 
             global idDCI 
             idDCI.append(self.lista.index(self.lb.get(ACTIVE)))
-            print(idDCI)
 
         if self.lb_up:
             self.var.set(self.lb.get(ACTIVE))
@@ -1637,7 +1636,7 @@ def pantallaFormula():
     altaFormulaFrame.iconbitmap("Iconos/icono.ico")
 
     #Selecciono el tamaño de la pantalla
-    altaFormulaFrame.geometry("460x340")
+    altaFormulaFrame.geometry("460x365")
 
     #Para que no se pueda cambiar el tamaño de la pantalla
     altaFormulaFrame.resizable(False, False)  
@@ -1654,7 +1653,7 @@ def pantallaFormula():
     #Creo un frame para el entry y para el checkbox
     frameFormula = Frame(altaFormulaFrame, bg = '#aad9af')
     #Si no le pongo width y height al frame no me sale el listbox para el predictivo
-    frameFormula['height'] = 280
+    frameFormula['height'] = 310
     frameFormula['width'] = 450
     frameFormula.grid_propagate(False)
     frameFormula.pack()
@@ -1730,6 +1729,7 @@ def pantallaFormula():
 
         #Pongo los campos vacios
         entryFormula.delete(0, 'end')
+        entryFormulaDCI.delete(0, 'end')
         checkPsico3.deselect()
 
         #Vacío la lista idDCI
