@@ -1010,7 +1010,7 @@ def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Nco
         #Si la formula ingresada es de lista 3 tambien
         if filtro == True:
             
-            if lista_DCIformulas3[idDCI] == "":
+            if lista_DCIformulas3[idDCI] != "":
                 database.updatePsico3(nombreMedico, str(lista_DCIformulas3[idDCI] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
             else:
                 database.updatePsico3(nombreMedico, str(entryFormula).upper(), entryCant, int(Ncontrol))
@@ -1021,7 +1021,7 @@ def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Nco
     else:
         #Si la formula ingresada es de lista 3
         if filtro == True:
-            if lista_DCIformulas3[idDCI] == "":
+            if lista_DCIformulas3[idDCI] != "":
                 database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(lista_DCIformulas3[idDCI] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
             else:
                 database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(entryFormula).upper(), entryCant, int(Ncontrol))
@@ -1925,7 +1925,7 @@ def guardarDatos(desde, hasta):
         writer = pd.ExcelWriter(directory + "/" + str(desde) + "-" + str(hasta) + " Libro recetario.xlsx", engine='xlsxwriter')
 
         # Convert the dataframe to an XlsxWriter Excel object.
-        dfDatos.to_excel(writer, sheet_name='Sheet1')
+        dfDatos.to_excel(writer, sheet_name='Sheet1', header = False)
 
         # Get the xlsxwriter workbook and worksheet objects.
         workbook  = writer.book
@@ -1949,8 +1949,8 @@ def guardarDatos(desde, hasta):
         cell_format_formula.set_align('left')
         cell_format_formula.set_align('center')
 
-        #Para que se ponga la hoja A5
-        worksheet.set_paper(11)
+        #Para que se ponga la hoja A4
+        worksheet.set_paper(9)
         #Margenes
         '''worksheet.set_margins(left = 0, right = 0, top = 0.75, bottom = 0)'''
         worksheet.set_margins(left = 0, right = 0, top = 0, bottom = 0)
@@ -1958,9 +1958,6 @@ def guardarDatos(desde, hasta):
         #Lo centra
         worksheet.center_horizontally()
         worksheet.center_vertically()
-
-        #Para que se ponga impresión horizontal
-        worksheet.set_landscape()
 
         #Esta en puntos (es una unidad de medida)
         #Numero
@@ -1974,6 +1971,8 @@ def guardarDatos(desde, hasta):
         #Cantidad
         worksheet.set_column('E:E', 2, cell_format_2)
 
+        worksheet.set_row(1, 14)
+        
         #Para cambiar las filas
         worksheet.set_default_row(29.15)
 
