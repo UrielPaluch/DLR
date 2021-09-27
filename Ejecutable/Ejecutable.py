@@ -1710,12 +1710,28 @@ def pantallaFormula():
     textoNombreComercial.grid(row = 0, column = 0, padx = 5, sticky=SW, pady = (10,0))
     textoNombreComercial['font'] = myFont
 
+    def traigoDCI(event):
+        #Llamo primero al metodo selection porque si no me toma de entry lo que esta escrito y no la formula
+        entryFormula.selection(event)
+        idDCI_aux = buscarIDdelDCI(entryFormula.get(), lista_formulas)
+        entryFormulaDCI.insert(0, lista_DCIformulas[idDCI_aux])
+        try:
+            #Para que no se abra el listbox
+            entryFormulaDCI.endPublico()
+        except Exception as e:
+            print(e)
+
     #Entry formula
     entryFormula = AutocompleteEntry(lista_formulas, frameFormula, width = 40, font=12)
     entryFormula.grid(row = 1, column = 0, padx = 5)
     entryFormula['font'] = myFont
     entryFormula.bind('<KeyRelease>', cambioAltaFormulaFrame)
     entryFormula.bind('<Button-1>', cambioAltaFormulaFrame)
+    entryFormula.bind("<Right>", traigoDCI)
+    #Click izquierdo
+    entryFormula.bind("<Button-1>", traigoDCI)
+    #Tecla enter
+    entryFormula.bind("<Return>", traigoDCI)
 
     #Texto nombre DCI
     textoNombreDCI = Label(frameFormula, text = "Ingrese el nombre DCI", font = "14", bg = '#aad9af')
