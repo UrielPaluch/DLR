@@ -991,7 +991,7 @@ def esLista3(formula):
         return(False)
 
 def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Ncontrol, Nreceta):
-
+    global idDCI
     filtro = esLista3(entryFormula)
 
     #Si la cantidad ingresada es cero, directamente lo borra
@@ -1010,16 +1010,21 @@ def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Nco
         #Si la formula ingresada es de lista 3 tambien
         if filtro == True:
             
-            database.updatePsico3(nombreMedico, str(entryFormula).upper(), entryCant, int(Ncontrol))
+            if lista_DCIformulas3[idDCI] == "":
+                database.updatePsico3(nombreMedico, str(lista_DCIformulas3[idDCI] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
+            else:
+                database.updatePsico3(nombreMedico, str(entryFormula).upper(), entryCant, int(Ncontrol))
         else:
             #Borro la receta de lista 3
             database.borroPsico3(int(Ncontrol))
     #Si la receta de la base de datos NO es de lista 3
     else:
-
         #Si la formula ingresada es de lista 3
         if filtro == True:
-            database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(entryFormula).upper(), entryCant, int(Ncontrol))
+            if lista_DCIformulas3[idDCI] == "":
+                database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(lista_DCIformulas3[idDCI] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
+            else:
+                database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(entryFormula).upper(), entryCant, int(Ncontrol))
 
 #Para que no se pueda cambiar el tamaño de la pantalla
 root.resizable(False, False)
@@ -1355,6 +1360,7 @@ def clickerGrabar(event):
     global formula1
     global formula2
     global formula3
+    global idDCI
 
     try:
         idReceta = int(entryIDreceta.get())
@@ -1433,8 +1439,11 @@ def clickerGrabar(event):
                 if existe == False:
                     m_box.showinfo('Aviso','O ponga la cantidad en cero')
                     return()
-
-                database.actualizoPsico(nombreMedico, str(entryFormula1.get()).upper(), entryCant1.get(), int(control1))
+                
+                if str(lista_DCIformulas[idDCI[0]]) == "":
+                    database.actualizoPsico(nombreMedico, str(lista_DCIformulas[idDCI[0]] + ", " + entryFormula1.get()).upper(), entryCant1.get(), int(control1))
+                else:
+                    database.actualizoPsico(nombreMedico, str(entryFormula1.get()).upper(), entryCant1.get(), int(control1))
                 
                 ABMpsico3(formula1Lista3, formula1, nombreMedico, entryFormula1.get(), entryCant1.get(), control1, idReceta)
 
