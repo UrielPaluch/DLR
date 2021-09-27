@@ -1009,11 +1009,7 @@ def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Nco
         
         #Si la formula ingresada es de lista 3 tambien
         if filtro == True:
-            
-            if lista_DCIformulas3[idDCI] != "":
-                database.updatePsico3(nombreMedico, str(lista_DCIformulas3[idDCI] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
-            else:
-                database.updatePsico3(nombreMedico, str(entryFormula).upper(), entryCant, int(Ncontrol))
+            database.updatePsico3(nombreMedico, str( entryFormula).upper(), entryCant, int(Ncontrol))
         else:
             #Borro la receta de lista 3
             database.borroPsico3(int(Ncontrol))
@@ -1021,10 +1017,7 @@ def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Nco
     else:
         #Si la formula ingresada es de lista 3
         if filtro == True:
-            if lista_DCIformulas3[idDCI] != "":
-                database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(lista_DCIformulas3[idDCI] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
-            else:
-                database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(entryFormula).upper(), entryCant, int(Ncontrol))
+            database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(entryFormula).upper(), entryCant, int(Ncontrol))
 
 #Para que no se pueda cambiar el tamaño de la pantalla
 root.resizable(False, False)
@@ -1588,18 +1581,15 @@ def clickerBorrar(event):
 
     def borrar(event):
         global ultimoID
-        if entryUsuario.get() == 'NELSON' and entryContraseña.get() == '1978':
-            try:
-                sinMovimiento = database.borrarUltimaReceta()
-                if sinMovimiento == False:
-                    varIDreceta.set(ultimoID)
-                    ultimoID -= 1
-                    funUltimaFecha()
+        try:
+            sinMovimiento = database.borrarUltimaReceta()
+            if sinMovimiento == False:
+                varIDreceta.set(ultimoID)
+                ultimoID -= 1
+                funUltimaFecha()
                 m_box.showinfo('Aviso', 'Última receta borrada con exito')
-            except Exception as e:
-                m_box.showerror('Error', 'Se produjo un error: ' + str(e))
-        else:
-            m_box.showerror('Error', 'Usuario y/o contraseña incorrectos')
+        except Exception as e:
+            m_box.showerror('Error', 'Se produjo un error: ' + str(e))
         frameLogin.withdraw()
 
     btnLoguin.bind("<Right>", borrar)
@@ -1971,8 +1961,6 @@ def guardarDatos(desde, hasta):
         #Cantidad
         worksheet.set_column('E:E', 2, cell_format_2)
 
-        worksheet.set_row(1, 14)
-        
         #Para cambiar las filas
         worksheet.set_default_row(29.15)
 
