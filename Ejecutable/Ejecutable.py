@@ -76,7 +76,6 @@ class AutocompleteEntry(Entry):
             #Con esto consigo el ID que corresponde al DCI. 
             global idDCI 
             idDCI.append(self.lista.index(self.lb.get(ACTIVE)))
-            print(idDCI)
 
         if self.lb_up:
             self.var.set(self.lb.get(ACTIVE))
@@ -990,6 +989,12 @@ def esLista3(formula):
     else:
         return(False)
 
+#Esta funcion va a quedar hasta que este la base de datos relacional. Es una pija la verdad
+def buscarIDdelDCI(formula, lista):
+    for i in range(0,len(lista),1):
+        if (formula == lista[i]):
+            return(i)
+
 def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Ncontrol, Nreceta):
     global idDCI
     filtro = esLista3(entryFormula)
@@ -1009,7 +1014,8 @@ def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Nco
         
         #Si la formula ingresada es de lista 3 tambien
         if filtro == True:
-            database.updatePsico3(nombreMedico, str( entryFormula).upper(), entryCant, int(Ncontrol))
+            idDCI_aux = buscarIDdelDCI(entryFormula, lista_formulas3)
+            database.updatePsico3(nombreMedico, str(lista_DCIformulas3[idDCI_aux] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
         else:
             #Borro la receta de lista 3
             database.borroPsico3(int(Ncontrol))
@@ -1017,7 +1023,8 @@ def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Nco
     else:
         #Si la formula ingresada es de lista 3
         if filtro == True:
-            database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(entryFormula).upper(), entryCant, int(Ncontrol))
+            idDCI_aux = buscarIDdelDCI(entryFormula, lista_formulas3)
+            database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(lista_DCIformulas3[idDCI_aux] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
 
 #Para que no se pueda cambiar el tamaño de la pantalla
 root.resizable(False, False)
@@ -1470,8 +1477,9 @@ def clickerGrabar(event):
                 if existe == False:
                     m_box.showinfo('Aviso','O ponga la cantidad en cero')
                     return()
-                
-                database.actualizoPsico(nombreMedico, str(entryFormula1.get()).upper(), entryCant1.get(), int(control1))
+
+                idDCI_aux = buscarIDdelDCI(str(entryFormula1.get()).upper(), lista_formulas)
+                database.actualizoPsico(nombreMedico, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula1.get()).upper(), entryCant1.get(), int(control1))
                 
                 ABMpsico3(formula1Lista3, formula1, nombreMedico, entryFormula1.get(), entryCant1.get(), control1, idReceta)
 
@@ -1487,14 +1495,16 @@ def clickerGrabar(event):
                     m_box.showinfo('Aviso', 'Ponga la cantidad en cero')
                     return()
 
-                database.actualizoPsico(nombreMedico, str(entryFormula2.get()).upper(), entryCant2.get(), int(control2))
+                idDCI_aux = buscarIDdelDCI(str(entryFormula2.get()).upper(), lista_formulas)
+                database.actualizoPsico(nombreMedico, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula2.get()).upper(), entryCant2.get(), int(control2))
                 ABMpsico3(formula2Lista3, formula2, nombreMedico, entryFormula2.get(), entryCant2.get(), control2, idReceta)
             else:
                 #Creo nuevo
                 if entryFormula2.get() != '' and int(entryCant2.get()) > 0:
                     control2 = str(idReceta) + '2'
-                    control2 = int(control2) 
-                    database.graboMedicamento(idReceta, nombreMedico, fecha, str(entryFormula2.get()).upper(), entryCant2.get(), control2)
+                    control2 = int(control2)
+                    idDCI_aux = buscarIDdelDCI(str(entryFormula2.get()).upper(), lista_formulas)
+                    database.graboMedicamento(idReceta, nombreMedico, fecha, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula2.get()).upper(), entryCant2.get(), control2)
                     ABMpsico3(formula2Lista3, formula2, nombreMedico, entryFormula2.get(), entryCant2.get(), control2, idReceta)
                 
                 if entryFormula2.get() != '' and int(entryCant2.get()) <= 0:
@@ -1516,15 +1526,17 @@ def clickerGrabar(event):
                     m_box.showinfo('Aviso', 'Ponga la cantidad en cero')
                     return()
 
+                idDCI_aux = buscarIDdelDCI(str(entryFormula3.get()).upper(), lista_formulas)
                 ABMpsico3(formula3Lista3, formula3, nombreMedico, entryFormula3.get(), entryCant3.get(), control3, idReceta)
-                database.actualizoPsico(nombreMedico, str(entryFormula3.get()).upper(), entryCant3.get(), int(control3))
+                database.actualizoPsico(nombreMedico, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula3.get()).upper(), entryCant3.get(), int(control3))
             else:
                 #Creo nuevo
                 if entryFormula3.get() != '' and int(entryCant3.get()) > 0:
                     control3 = str(idReceta) + '3'
                     control3 = int(control3) 
                     ABMpsico3(formula3Lista3, formula3, nombreMedico, entryFormula3.get(), entryCant3.get(), control3, idReceta)
-                    database.graboMedicamento(idReceta, nombreMedico, fecha, str(entryFormula3.get()).upper(), entryCant3.get(), control3)
+                    idDCI_aux = buscarIDdelDCI(str(entryFormula3.get()).upper(), lista_formulas)
+                    database.graboMedicamento(idReceta, nombreMedico, fecha, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula3.get()).upper(), entryCant3.get(), control3)
                 
                 if entryFormula3.get() != '' and int(entryCant3.get()) <= 0:
                     m_box.showwarning('AVISO', 'Ingrese una cantidad válida')
