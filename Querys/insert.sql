@@ -1,0 +1,1 @@
+INSERT INTO tabla_psico(id_receta, nombre_medico, fecha, formula, cant, control) VALUES (500000, 'ABAD ANDREA', '21-12-2020', 'CEFTRIAXONA, ACANTEX 1 G IM F.A.X 3', '2', 5000001)

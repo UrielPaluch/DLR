@@ -1,3 +1,4 @@
+import textwrap
 from tkinter import *
 from datetime import timedelta, date, datetime
 from tkcalendar import *
@@ -16,7 +17,6 @@ import pandas.io.formats.excel
 
 #Inicializo las variables para que puedan ser globales
 pantalla = ''
-idDCI = []
 #--------------------------------------------------------------------------------------------------#
 #Autocomplete
 class AutocompleteEntry(Entry):
@@ -71,11 +71,6 @@ class AutocompleteEntry(Entry):
                     self.lb_up = False
         
     def selection(self, event):
-        if self.lista != lista_medicos:
-            #Con esto consigo el ID que corresponde al DCI. 
-            global idDCI 
-            idDCI.append(self.lista.index(self.lb.get(ACTIVE)))
-
         if self.lb_up:
             self.var.set(self.lb.get(ACTIVE))
             self.lb.destroy()
@@ -839,8 +834,10 @@ def grabarMedicamento():
         control = str(ultimoID) + '1'
         control = int(control)
 
-        if str(lista_DCIformulas[idDCI[0]]) != "":
-            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
+        
+        idDCI_aux = buscarIDdelDCI(entryFormula1.get(), lista_formulas)
+        if str(lista_DCIformulas[idDCI_aux]) != "":
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula1.get()), cant1.get(), control)
         else:
             database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula1.get(), cant1.get(), control)
 
@@ -848,8 +845,8 @@ def grabarMedicamento():
         
         filtro4 = valildarFiltro2(filtro3, entryFormula1.get(), 'Formula3')
         if filtro4 == True:
-            if str(lista_DCIformulas[idDCI[0]]) != "":
-                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[0]]+ ", " + entryFormula1.get()), cant1.get(), control)
+            if str(lista_DCIformulas[idDCI[idDCI_aux]]) != "":
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula1.get()), cant1.get(), control)
             else:
                 database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula1.get(), cant1.get(), control)
     else:
@@ -861,8 +858,9 @@ def grabarMedicamento():
         control = str(ultimoID) + '2'
         control = int(control)
 
-        if str(lista_DCIformulas[idDCI[1]]) != "":
-            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
+        idDCI_aux = buscarIDdelDCI(entryFormula2.get(), lista_formulas)
+        if str(lista_DCIformulas[idDCI_aux]) != "":
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula2.get()), cant2.get(), control)
         else:
             database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula2.get(), cant2.get(), control)
 
@@ -870,8 +868,8 @@ def grabarMedicamento():
         
         filtro4 = valildarFiltro2(filtro3, entryFormula2.get(), 'Formula3')
         if filtro4 == True:
-            if str(lista_DCIformulas[idDCI[1]]) != "":
-                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[1]]+ ", " + entryFormula2.get()), cant2.get(), control)
+            if str(lista_DCIformulas[idDCI_aux]) != "":
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula2.get()), cant2.get(), control)
             else:
                 database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula2.get(), cant2.get(), control)
 
@@ -880,8 +878,9 @@ def grabarMedicamento():
         control = str(ultimoID) + '3'
         control = int(control)
 
-        if str(lista_DCIformulas[idDCI[2]]) != "":
-            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
+        idDCI_aux = buscarIDdelDCI(entryFormula3.get(), lista_formulas)
+        if str(lista_DCIformulas[idDCI_aux]) != "":
+            database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula3.get()), cant3.get(), control)
         else:
             database.graboMedicamento(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula3.get(), cant3.get(), control)
         
@@ -889,8 +888,8 @@ def grabarMedicamento():
         
         filtro4 = valildarFiltro2(filtro3, entryFormula3.get(), 'Formula3')
         if filtro4 == True:
-            if str(lista_DCIformulas[idDCI[2]]) != "":
-                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI[2]]+ ", " + entryFormula3.get()), cant3.get(), control)
+            if str(lista_DCIformulas[idDCI_aux]) != "":
+                database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), str(lista_DCIformulas[idDCI_aux]+ ", " + entryFormula3.get()), cant3.get(), control)
             else:
                 database.graboMedicamento3(ultimoID, str(entryNombre.get()).upper(), Calendario.get_date(), entryFormula3.get(), cant3.get(), control)
     
@@ -988,8 +987,14 @@ def esLista3(formula):
     else:
         return(False)
 
-def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Ncontrol, Nreceta):
+#Esta funcion va a quedar hasta que este la base de datos relacional. Es una pija la verdad
+def buscarIDdelDCI(formula, lista):
+    for i in range(0,len(lista),1):
+        if (formula == lista[i]):
+            return(i)
 
+def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Ncontrol, Nreceta):
+    global idDCI
     filtro = esLista3(entryFormula)
 
     #Si la cantidad ingresada es cero, directamente lo borra
@@ -1007,17 +1012,17 @@ def ABMpsico3(formulaLista3, formula, nombreMedico, entryFormula, entryCant, Nco
         
         #Si la formula ingresada es de lista 3 tambien
         if filtro == True:
-            
-            database.updatePsico3(nombreMedico, str(entryFormula).upper(), entryCant, int(Ncontrol))
+            idDCI_aux = buscarIDdelDCI(entryFormula, lista_formulas3)
+            database.updatePsico3(nombreMedico, str(lista_DCIformulas3[idDCI_aux] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
         else:
             #Borro la receta de lista 3
             database.borroPsico3(int(Ncontrol))
     #Si la receta de la base de datos NO es de lista 3
     else:
-
         #Si la formula ingresada es de lista 3
         if filtro == True:
-            database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(entryFormula).upper(), entryCant, int(Ncontrol))
+            idDCI_aux = buscarIDdelDCI(entryFormula, lista_formulas3)
+            database.graboMedicamento3(Nreceta, nombreMedico, fecha, str(lista_DCIformulas3[idDCI_aux] + ", " + entryFormula).upper(), entryCant, int(Ncontrol))
 
 #Para que no se pueda cambiar el tamaño de la pantalla
 root.resizable(False, False)
@@ -1124,9 +1129,15 @@ def clickerBuscar(event):
         entryCant1.delete(0, 'end')
 
         formula1 = dfDatos['formula'][0]
-        entryFormula1.insert(0, formula1)
 
-        formula1Lista3 = esLista3(formula1)
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula1
+        head, sep, tail = text.partition(', ')
+
+        entryFormula1.insert(0, tail)
+
+        formula1Lista3 = esLista3(tail)
 
         try:
             #Para que no se abra el listbox
@@ -1144,6 +1155,12 @@ def clickerBuscar(event):
         entryCant1.delete(0, 'end')
 
         formula1 = dfDatos['formula'][0]
+
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula1
+        head, sep, formula1 = text.partition(', ')
+
         entryFormula1.insert(0, formula1)
 
         #Para saber si es de lista 3
@@ -1165,6 +1182,11 @@ def clickerBuscar(event):
             control3 = control
             #Pongo manualmente en cero las cantidades
             entryCant3.delete(0, 'end')
+
+            #Medio catinga esto. Es hasta tener la base de datos relacional
+            #Toma lo que esta despues de la coma
+            text = formula2
+            head, sep, formula2 = text.partition(', ')
             
             entryFormula3.insert(0, formula2)
             entryCant3.insert(0, cant2_aux)
@@ -1180,6 +1202,11 @@ def clickerBuscar(event):
             control2 = control
             #Pongo manualmente en cero las cantidades
             entryCant2.delete(0, 'end')
+
+            #Medio catinga esto. Es hasta tener la base de datos relacional
+            #Toma lo que esta despues de la coma
+            text = formula2
+            head, sep, formula2 = text.partition(', ')
 
             entryFormula2.insert(0, formula2)
             entryCant2.insert(0, cant2_aux)
@@ -1201,8 +1228,13 @@ def clickerBuscar(event):
         entryCant2.delete(0, 'end')
         entryCant3.delete(0, 'end')
 
-
         formula1 = dfDatos['formula'][0]
+
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula1
+        head, sep, formula1 = text.partition(', ')
+
         entryFormula1.insert(0, formula1)
 
         formula1Lista3 = esLista3(formula1)
@@ -1211,6 +1243,12 @@ def clickerBuscar(event):
         entryCant1.insert(0, cant1_aux)
 
         formula2 = dfDatos['formula'][1]
+
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula2
+        head, sep, formula2 = text.partition(', ')
+
         entryFormula2.insert(0, formula2)
 
         formula2Lista3 = esLista3(formula2)
@@ -1219,6 +1257,12 @@ def clickerBuscar(event):
         entryCant2.insert(0, cant2_aux)
 
         formula3 = dfDatos['formula'][2]
+
+        #Medio catinga esto. Es hasta tener la base de datos relacional
+        #Toma lo que esta despues de la coma
+        text = formula3
+        head, sep, formula3 = text.partition(', ')
+
         entryFormula3.insert(0, formula3)
 
         formula3Lista3 = esLista3(formula3)
@@ -1353,6 +1397,7 @@ def clickerGrabar(event):
     global formula1
     global formula2
     global formula3
+    global idDCI
 
     try:
         idReceta = int(entryIDreceta.get())
@@ -1432,7 +1477,8 @@ def clickerGrabar(event):
                     m_box.showinfo('Aviso','O ponga la cantidad en cero')
                     return()
 
-                database.actualizoPsico(nombreMedico, str(entryFormula1.get()).upper(), entryCant1.get(), int(control1))
+                idDCI_aux = buscarIDdelDCI(str(entryFormula1.get()).upper(), lista_formulas)
+                database.actualizoPsico(nombreMedico, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula1.get()).upper(), entryCant1.get(), int(control1))
                 
                 ABMpsico3(formula1Lista3, formula1, nombreMedico, entryFormula1.get(), entryCant1.get(), control1, idReceta)
 
@@ -1448,14 +1494,16 @@ def clickerGrabar(event):
                     m_box.showinfo('Aviso', 'Ponga la cantidad en cero')
                     return()
 
-                database.actualizoPsico(nombreMedico, str(entryFormula2.get()).upper(), entryCant2.get(), int(control2))
+                idDCI_aux = buscarIDdelDCI(str(entryFormula2.get()).upper(), lista_formulas)
+                database.actualizoPsico(nombreMedico, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula2.get()).upper(), entryCant2.get(), int(control2))
                 ABMpsico3(formula2Lista3, formula2, nombreMedico, entryFormula2.get(), entryCant2.get(), control2, idReceta)
             else:
                 #Creo nuevo
                 if entryFormula2.get() != '' and int(entryCant2.get()) > 0:
                     control2 = str(idReceta) + '2'
-                    control2 = int(control2) 
-                    database.graboMedicamento(idReceta, nombreMedico, fecha, str(entryFormula2.get()).upper(), entryCant2.get(), control2)
+                    control2 = int(control2)
+                    idDCI_aux = buscarIDdelDCI(str(entryFormula2.get()).upper(), lista_formulas)
+                    database.graboMedicamento(idReceta, nombreMedico, fecha, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula2.get()).upper(), entryCant2.get(), control2)
                     ABMpsico3(formula2Lista3, formula2, nombreMedico, entryFormula2.get(), entryCant2.get(), control2, idReceta)
                 
                 if entryFormula2.get() != '' and int(entryCant2.get()) <= 0:
@@ -1477,15 +1525,17 @@ def clickerGrabar(event):
                     m_box.showinfo('Aviso', 'Ponga la cantidad en cero')
                     return()
 
+                idDCI_aux = buscarIDdelDCI(str(entryFormula3.get()).upper(), lista_formulas)
                 ABMpsico3(formula3Lista3, formula3, nombreMedico, entryFormula3.get(), entryCant3.get(), control3, idReceta)
-                database.actualizoPsico(nombreMedico, str(entryFormula3.get()).upper(), entryCant3.get(), int(control3))
+                database.actualizoPsico(nombreMedico, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula3.get()).upper(), entryCant3.get(), int(control3))
             else:
                 #Creo nuevo
                 if entryFormula3.get() != '' and int(entryCant3.get()) > 0:
                     control3 = str(idReceta) + '3'
                     control3 = int(control3) 
                     ABMpsico3(formula3Lista3, formula3, nombreMedico, entryFormula3.get(), entryCant3.get(), control3, idReceta)
-                    database.graboMedicamento(idReceta, nombreMedico, fecha, str(entryFormula3.get()).upper(), entryCant3.get(), control3)
+                    idDCI_aux = buscarIDdelDCI(str(entryFormula3.get()).upper(), lista_formulas)
+                    database.graboMedicamento(idReceta, nombreMedico, fecha, str(lista_DCIformulas[idDCI_aux] + ", " + entryFormula3.get()).upper(), entryCant3.get(), control3)
                 
                 if entryFormula3.get() != '' and int(entryCant3.get()) <= 0:
                     m_box.showwarning('AVISO', 'Ingrese una cantidad válida')
@@ -1541,7 +1591,6 @@ CreateToolTip(btnGrabar, text = "Grabar")
 def clickerBorrar(event):
     global myFont
     
-
     frameLogin = Toplevel(bg = '#e0bdfa')
 
     #Cambio el icono
@@ -1577,18 +1626,15 @@ def clickerBorrar(event):
 
     def borrar(event):
         global ultimoID
-        if entryUsuario.get() == 'NELSON' and entryContraseña.get() == '1978':
-            try:
-                sinMovimiento = database.borrarUltimaReceta()
-                if sinMovimiento == False:
-                    varIDreceta.set(ultimoID)
-                    ultimoID -= 1
-                    funUltimaFecha()
+        try:
+            sinMovimiento = database.borrarUltimaReceta()
+            if sinMovimiento == False:
+                varIDreceta.set(ultimoID)
+                ultimoID -= 1
+                funUltimaFecha()
                 m_box.showinfo('Aviso', 'Última receta borrada con exito')
-            except Exception as e:
-                m_box.showerror('Error', 'Se produjo un error: ' + str(e))
-        else:
-            m_box.showerror('Error', 'Usuario y/o contraseña incorrectos')
+        except Exception as e:
+            m_box.showerror('Error', 'Se produjo un error: ' + str(e))
         frameLogin.withdraw()
 
     btnLoguin.bind("<Right>", borrar)
@@ -1636,7 +1682,7 @@ def pantallaFormula():
     altaFormulaFrame.iconbitmap("Iconos/icono.ico")
 
     #Selecciono el tamaño de la pantalla
-    altaFormulaFrame.geometry("460x365")
+    altaFormulaFrame.geometry("460x460")
 
     #Para que no se pueda cambiar el tamaño de la pantalla
     altaFormulaFrame.resizable(False, False)  
@@ -1653,7 +1699,7 @@ def pantallaFormula():
     #Creo un frame para el entry y para el checkbox
     frameFormula = Frame(altaFormulaFrame, bg = '#aad9af')
     #Si no le pongo width y height al frame no me sale el listbox para el predictivo
-    frameFormula['height'] = 310
+    frameFormula['height'] = 400
     frameFormula['width'] = 450
     frameFormula.grid_propagate(False)
     frameFormula.pack()
@@ -1663,12 +1709,28 @@ def pantallaFormula():
     textoNombreComercial.grid(row = 0, column = 0, padx = 5, sticky=SW, pady = (10,0))
     textoNombreComercial['font'] = myFont
 
+    def traigoDCI(event):
+        #Llamo primero al metodo selection porque si no me toma de entry lo que esta escrito y no la formula
+        entryFormula.selection(event)
+        idDCI_aux = buscarIDdelDCI(entryFormula.get(), lista_formulas)
+        entryFormulaDCI.insert(0, lista_DCIformulas[idDCI_aux])
+        try:
+            #Para que no se abra el listbox
+            entryFormulaDCI.endPublico()
+        except Exception as e:
+            print(e)
+
     #Entry formula
     entryFormula = AutocompleteEntry(lista_formulas, frameFormula, width = 40, font=12)
     entryFormula.grid(row = 1, column = 0, padx = 5)
     entryFormula['font'] = myFont
     entryFormula.bind('<KeyRelease>', cambioAltaFormulaFrame)
     entryFormula.bind('<Button-1>', cambioAltaFormulaFrame)
+    entryFormula.bind("<Right>", traigoDCI)
+    #Click izquierdo
+    entryFormula.bind("<Button-1>", traigoDCI)
+    #Tecla enter
+    entryFormula.bind("<Return>", traigoDCI)
 
     #Texto nombre DCI
     textoNombreDCI = Label(frameFormula, text = "Ingrese el nombre DCI", font = "14", bg = '#aad9af')
@@ -1704,7 +1766,7 @@ def pantallaFormula():
     def existeFormula():
         global idDCI
 
-        formula = str(entryFormula.get()).upper()
+        formula = str(entryFormula.get().replace(",", " -")).upper()
         dci = str(entryFormulaDCI.get()).upper()
         filtro = dfFormula[dfFormula['Formula'].str.contains(formula)]
 
@@ -1737,8 +1799,6 @@ def pantallaFormula():
 
         altaFormulaFrame.focus_force()
 
-
-    
 
     def clickerGrabar(event):
         existeFormula()
@@ -1781,6 +1841,7 @@ def pantallaFormula():
 
         #Pongo los campos vacios
         entryFormula.delete(0, 'end')
+        entryFormulaDCI.delete(0, 'end')
 
         #Para que el cursor se ponga en el Nombre del médico
         entryFormula.focus_set()
@@ -1917,7 +1978,6 @@ def guardarDatos(desde, hasta):
         writer = pd.ExcelWriter(directory + "/" + str(desde) + "-" + str(hasta) + " Libro recetario.xlsx", engine='xlsxwriter')
 
         # Convert the dataframe to an XlsxWriter Excel object.
-        #Header = False para que no tenga el titulo. Esto es lo que quería Agnese
         dfDatos.to_excel(writer, sheet_name='Sheet1', header = False)
 
         # Get the xlsxwriter workbook and worksheet objects.
@@ -1965,7 +2025,7 @@ def guardarDatos(desde, hasta):
         #Fórmula
         worksheet.set_column('D:D', 48.86, cell_format_formula)
         #Cantidad
-        worksheet.set_column('E:E', 2, cell_format)
+        worksheet.set_column('E:E', 2, cell_format_2)
 
         #Para cambiar las filas
         worksheet.set_default_row(29.15)
@@ -2069,7 +2129,7 @@ def guardarDatos3(desde, hasta):
     dfDatos.drop('ignorar', axis = 1, inplace = True)
     dfDatos.drop('Control', axis = 1, inplace = True)
     
-    #Esto es para que se ponga solo el día y el mes
+    #Esto es lo que quiere Agnese
     dfDatos['Fecha'].replace({'-2020':''}, regex = True, inplace = True)
     dfDatos['Fecha'].replace({'-2021':''}, regex = True, inplace = True)
     dfDatos['Fecha'].replace({'-2022':''}, regex = True, inplace = True)
