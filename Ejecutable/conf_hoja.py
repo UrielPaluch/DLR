@@ -1,3 +1,4 @@
+from os import stat
 import tkinter
 import xlsxwriter
 from tkinter import *
@@ -15,18 +16,18 @@ worksheet = workbook.add_worksheet()
 window = Tk()
 window.title('Configuacion de hoja')
 window.geometry('300x200+10+20')
-window.configure(background='#ADD8E6')
+window.configure(background='#F08080')
 window.iconbitmap('C:/Users/Pedri/Desktop/Zurich/DLR/Iconos/icono.ico')
 myFont = font.Font(family='Nunito')
 
 # CREO LOS LABELS QUE VA A TENER A LA IZQUIERDA DEL DROPBOX
-Hoja = Label(window,text='Tamaño de hoja: ', font=(myFont,11), bg='#ADD8E6')
+Hoja = Label(window,text='Tamaño de hoja: ', font=(myFont,11), bg='#F08080')
 Hoja.place(x = 20, y = 20)
-Letra = Label(window, text = 'Tamaño de letra: ',font=(myFont,11),bg='#ADD8E6' )
+Letra = Label(window, text = 'Tamaño de letra: ',font=(myFont,11),bg='#F08080' )
 Letra.place(x = 20, y = 50)
-Vorientacion = Label(window, text='Orientacion vertical:',font=(myFont,11), bg='#ADD8E6')
+Vorientacion = Label(window, text='Orientacion vertical:',font=(myFont,11), bg='#F08080')
 Vorientacion.place(x=20,y=80)
-Horientacion = Label(window, text='Orientacion horizontal:',font=(myFont,11), bg='#ADD8E6')
+Horientacion = Label(window, text='Orientacion horizontal:',font=(myFont,11), bg='#F08080')
 Horientacion.place(x=20,y=110)
 
 # CREO EL DROPBOX PARA LA HOJA
@@ -55,31 +56,56 @@ def guardar (): # guarda en la lista y cierra la ventana
     NumLetra.get() # tamanio de letra
     lbOvert.get() # orientacion vertical
     lbOhori.get() # orientacion horizontal
+
+    # Valida el campo de numero
     try:
         float(NumLetra.get())   
     except ValueError:    
         tkinter.messagebox.showerror('Error', 'Ingrese un numero')
 
+    #Orientaciones verticales
+    cell_H_V_orientacion = workbook.add_format()
+    if lbOvert.get() == 'Arriba':
+        cell_H_V_orientacion.set_align('top')
+    elif  lbOvert.get() == 'Centro':
+        cell_H_V_orientacion.set_align('vcenter')
+    else:
+        cell_H_V_orientacion.set_align('bottom')
+
+    #Orientaciones horizontales
+    if lbOhori.get() == 'Izquierda':
+        cell_H_V_orientacion.set_align('left')
+    elif  lbOhori.get() == 'Centro':
+        cell_H_V_orientacion.set_align('center')
+    else:
+        cell_H_V_orientacion.set_align('right')
+
+    # Formato de Hoja
     if lbformato.get() == 'A4':
         worksheet.set_paper(9)
-    elif lbformato.get() == 'A5':
+    else:
+        worksheet.set_landscape()
         worksheet.set_paper(11)
-        
+
+    # cierra la ventana y guarda
     if float(NumLetra.get()):
         tkinter.messagebox.showinfo('Guarado', 'La configuracion ha sido guardada correctamente')
         window.destroy() # cierra la ventana y guarda
 
 
-pngGuardar = PhotoImage(file='C:/Users/Pedri/Desktop/Zurich/DLR/Iconos/discket.png')
-# Esto permite poner la imagen como boton
-savebtn = Button(window, image = pngGuardar, command= guardar, bg='#ADD8E6',activebackground= '#ADD8E6' , borderwidth=0)
-'''state=DISABLED Esto bloquea el boton, estaria bueno agregarlo cuando no hay nada tipeado''' 
-savebtn.place(x= 240,y=155)
-
-# MARGENES PARA LA HOJA
+#Margenes siempre 0
 worksheet.set_margins(left=0.0, right=0.0, top=0.0, bottom=0.0)
+#centrado de hoja para impresion
 worksheet.center_horizontally()
 worksheet.center_vertically()
+
+
+
+# Boton de guardado
+pngGuardar = PhotoImage(file='C:/Users/Pedri/Desktop/Zurich/DLR/Iconos/discket.png') # Esto permite poner la imagen como boton
+savebtn = Button(window, image = pngGuardar, command= guardar, bg='#F08080',activebackground= '#F08080' , borderwidth=0)
+#state=DISABLED Esto bloquea el boton, estaria bueno agregarlo cuando no hay nada tipeado
+savebtn.place(x= 240,y=155)
 
 window.mainloop()
 
