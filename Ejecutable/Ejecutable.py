@@ -1,4 +1,3 @@
-import textwrap
 from tkinter import *
 from datetime import timedelta, date, datetime
 from tkcalendar import *
@@ -14,6 +13,7 @@ import tkinter.font as font
 #import os
 #import sys
 import pandas.io.formats.excel
+import openpyxl
 
 #Inicializo las variables para que puedan ser globales
 pantalla = ''
@@ -2175,12 +2175,12 @@ def backup():
         #Pido los datos y creo los DataFrame
 
         lista_formula = database.backupFormula()
-        dfBackUpFormula = pd.DataFrame(lista_formula, columns = ['id_formula', 'formula'])
+        dfBackUpFormula = pd.DataFrame(lista_formula, columns = ['id_formula', 'formula', 'DCI'])
         dfBackUpFormula.set_index('id_formula', inplace = True)
 
 
         lista_formula3 = database.backupFormula3()
-        dfBackUpFormula3 = pd.DataFrame(lista_formula3, columns = ['idtabla_formula3', 'formula3'])
+        dfBackUpFormula3 = pd.DataFrame(lista_formula3, columns = ['idtabla_formula3', 'formula3', 'DCI'])
         dfBackUpFormula3.set_index('idtabla_formula3', inplace = True)
         
         lista_medicosBackUp = database.backupMedicos()
