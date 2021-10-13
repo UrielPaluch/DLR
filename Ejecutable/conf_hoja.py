@@ -11,103 +11,117 @@ from functools import partial
 import tkinter.font as font
 from tkinter import ttk
  
-workbook = xlsxwriter.Workbook('C:/Users/Pedri/Desktop/Prueba.xlsx') 
-worksheet = workbook.add_worksheet()
-window = Tk()
-window.title('Configuacion de hoja')
-window.geometry('300x200+10+20')
-window.configure(background='#F08080')
-window.iconbitmap('C:/Users/Pedri/Desktop/Zurich/DLR/Iconos/icono.ico')
-myFont = font.Font(family='Nunito')
+# PANTALLA DE INICIO VACIA
+root = Tk()
+root.geometry("900x300")
+root.title("main")
 
-# CREO LOS LABELS QUE VA A TENER A LA IZQUIERDA DEL DROPBOX
-Hoja = Label(window,text='Tamaño de hoja: ', font=(myFont,11), bg='#F08080')
-Hoja.place(x = 20, y = 20)
-Letra = Label(window, text = 'Tamaño de letra: ',font=(myFont,11),bg='#F08080' )
-Letra.place(x = 20, y = 50)
-Vorientacion = Label(window, text='Orientacion vertical:',font=(myFont,11), bg='#F08080')
-Vorientacion.place(x=20,y=80)
-Horientacion = Label(window, text='Orientacion horizontal:',font=(myFont,11), bg='#F08080')
-Horientacion.place(x=20,y=110)
+# DROPDOWN OPTIONS PARA ELEGIR LA PESTANIA DE CONFIGURACION
+def abrir():
+    global pngGuardar
+    # PANTALLA DE CONFIGURAICON
+    ConfHoja = Toplevel()
+    ConfHoja.title('Configuacion de hoja')
+    ConfHoja.geometry('700x300')
+    ConfHoja.configure(background='#F08080') #F08080 COLOR SALMON
+    ConfHoja.iconbitmap('C:/Users/Pedri/Desktop/Zurich/DLR/Iconos/icono.ico')
+    ConfHoja.resizable(False,False)
+    myFont = font.Font(family='Nunito')
 
-# CREO EL DROPBOX PARA LA HOJA
-formatoHoja = ['A4', 'A5']
-lbformato = Combobox(window,values = formatoHoja, width=3)
-lbformato.place(x=180,y=23)
+    # CREO LOS LABELS QUE VA A TENER A LA IZQUIERDA DEL DROPBOX
+    labelHoja = Label(ConfHoja,text='Tamaño de hoja: ', font=(myFont,11), bg='#F08080')
+    labelHoja.grid(column = 2, row= 2,padx= 5, pady = 5, sticky='w')
+    labelLetra = Label(ConfHoja, text = 'Tamaño de letra: ',font=(myFont,11),bg='#F08080' )
+    labelLetra.grid(column = 2, row= 4,padx= 5, pady = 5, sticky='w')
+    labelVori = Label(ConfHoja, text='Orientacion vertical:',font=(myFont,11), bg='#F08080')
+    labelVori.grid(column = 2, row= 6,padx= 5, pady = 5, sticky='w')
+    labelHori = Label(ConfHoja, text='Orientacion horizontal:',font=(myFont,11), bg='#F08080')
+    labelHori.grid(column = 2, row= 8,padx= 5, pady = 5, sticky='w')
 
-# TEXT FIELD PARA LA LETRA 
-NumLetra = Entry(window, text = '14' ,width=4) 
-NumLetra.place(x=180, y=53)
+    # CREO EL DROPBOX PARA LA HOJA
+    tipoHoja = ['A4', 'A5']
+    boxtipoHoja = Combobox(ConfHoja,values = tipoHoja, width=3)
+    boxtipoHoja.grid(column = 3, row= 2,padx= 5, pady = 5, sticky='w')
+
+    # TEXT FIELD PARA LA LETRA 
+    tmnLetra = Entry(ConfHoja, text = '14' ,width=4) 
+    tmnLetra.grid(column = 3, row= 4,padx= 5, pady = 5, sticky='w')
+
+    # DROPBOX PARA ORIENTACIONES VERTICAL Y HORIZONTAL DE TEXTO
+    ori_vert = ['Arriba', 'Centro', 'Abajo']
+    boxOri_vert = Combobox(ConfHoja, values=ori_vert, width = 8)
+    boxOri_vert.grid(column = 3, row= 6,padx= 5, pady = 5, sticky='w')
+
+    ori_hori = ['Izquierda', 'Centro', 'Derecha']
+    boxOri_hori = Combobox(ConfHoja, values=ori_hori, width = 8)
+    boxOri_hori.grid(column = 3, row= 8,padx= 5, pady = 5, sticky='w')
+
+    # ACA EMPIEZO A USAR XLSXWRITER
+    workbook = xlsxwriter.Workbook('C:/Users/Pedri/Desktop/Prueba.xlsx') 
+    worksheet = workbook.add_worksheet()
+    # BOTON DE GUARDADO  
+    def guardar (): # guarda en la lista y cierra la ventana
+        boxtipoHoja.get() # Tipo de hoja
+        tmnLetra.get() # tamanio de letra
+        boxOri_vert.get() # orientacion vertical
+        boxOri_hori.get() # orientacion horizontal
+
+        # Valida el campo de numero
+        try:
+            float(tmnLetra.get())   
+        except ValueError:    
+            tkinter.messagebox.showerror('Error', 'Ingrese un numero')
+
+        formatocelda = workbook.add_format()
+        #Tamanio de letra 
+        formatocelda.set_font_size(tmnLetra.get())
+
+        #Orientaciones verticales
+        if boxOri_vert.get() == 'Arriba':
+            formatocelda.set_align('top')
+        elif  boxOri_vert.get() == 'Centro':
+            formatocelda.set_align('vcenter')
+        else:
+            formatocelda.set_align('bottom')
+
+        #Orientaciones horizontales
+        if boxOri_hori.get() == 'Derecha':
+            formatocelda.set_align('right')
+        elif  boxOri_hori.get() == 'Centro':
+            formatocelda.set_align('center')
+        else:
+            formatocelda.set_align('left')
+
+        # Formato de Hoja
+        if boxtipoHoja.get() == 'A5':
+            worksheet.set_landscape()
+            worksheet.set_paper(11)
+        else:
+            worksheet.set_paper(9)
+
+        #Margenes siempre 0
+        worksheet.set_margins(left=0.0, right=0.0, top=0.0, bottom=0.0)
+        #centrado de hoja para impresion
+        worksheet.center_horizontally()
+        worksheet.center_vertically()
+
+        # cierra la ventana y guarda
+        if float(tmnLetra.get()):
+            tkinter.messagebox.showinfo('Guarado', 'La configuracion ha sido guardada correctamente')
+            ConfHoja.destroy() # cierra la ventana y guarda
 
 
-# DROPBOX PARA ORIENTACIONES DE TEXTO
-Overt = ['Arriba', 'Centro', 'Abajo']
-lbOvert = Combobox(window, values=Overt, width = 8)
-lbOvert.place(x=180,y=83)
+    # Boton de guardado
+    pngGuardar = PhotoImage(file='C:/Users/Pedri/Desktop/Zurich/DLR/Iconos/discket.png') # Esto permite poner la imagen como boton
+    savebtn = Button(ConfHoja, image = pngGuardar, command = guardar, bg='#F08080',activebackground= '#F08080' , borderwidth=0)
+    #state=DISABLED Esto bloquea el boton, estaria bueno agregarlo cuando no hay nada tipeado
+    savebtn.grid(column = 70, row = 20,padx = 25, pady = 15)
 
-Ohori = ['Izquierda', 'Centro', 'Derecha']
-lbOhori = Combobox(window, values=Ohori, width = 8)
-lbOhori.place(x=180,y=113)
+btnOptions = Button(root, text = 'Configuracion de hoja', command = abrir)
+btnOptions.grid(column = 0, row = 0)
+#boxOptions = Combobox(root, values = btnOptions).pack()
 
-# BOTON DE GUARDADO  
-def guardar (): # guarda en la lista y cierra la ventana
-
-    lbformato.get() # Tipo de hoja
-    NumLetra.get() # tamanio de letra
-    lbOvert.get() # orientacion vertical
-    lbOhori.get() # orientacion horizontal
-
-    # Valida el campo de numero
-    try:
-        float(NumLetra.get())   
-    except ValueError:    
-        tkinter.messagebox.showerror('Error', 'Ingrese un numero')
-
-    #Orientaciones verticales
-    cell_H_V_orientacion = workbook.add_format()
-    if lbOvert.get() == 'Arriba':
-        cell_H_V_orientacion.set_align('top')
-    elif  lbOvert.get() == 'Centro':
-        cell_H_V_orientacion.set_align('vcenter')
-    else:
-        cell_H_V_orientacion.set_align('bottom')
-
-    #Orientaciones horizontales
-    if lbOhori.get() == 'Izquierda':
-        cell_H_V_orientacion.set_align('left')
-    elif  lbOhori.get() == 'Centro':
-        cell_H_V_orientacion.set_align('center')
-    else:
-        cell_H_V_orientacion.set_align('right')
-
-    # Formato de Hoja
-    if lbformato.get() == 'A4':
-        worksheet.set_paper(9)
-    else:
-        worksheet.set_landscape()
-        worksheet.set_paper(11)
-
-    # cierra la ventana y guarda
-    if float(NumLetra.get()):
-        tkinter.messagebox.showinfo('Guarado', 'La configuracion ha sido guardada correctamente')
-        window.destroy() # cierra la ventana y guarda
-
-
-#Margenes siempre 0
-worksheet.set_margins(left=0.0, right=0.0, top=0.0, bottom=0.0)
-#centrado de hoja para impresion
-worksheet.center_horizontally()
-worksheet.center_vertically()
-
-
-
-# Boton de guardado
-pngGuardar = PhotoImage(file='C:/Users/Pedri/Desktop/Zurich/DLR/Iconos/discket.png') # Esto permite poner la imagen como boton
-savebtn = Button(window, image = pngGuardar, command= guardar, bg='#F08080',activebackground= '#F08080' , borderwidth=0)
-#state=DISABLED Esto bloquea el boton, estaria bueno agregarlo cuando no hay nada tipeado
-savebtn.place(x= 240,y=155)
-
-window.mainloop()
+root.mainloop()
 
 
 
