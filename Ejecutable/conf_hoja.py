@@ -22,7 +22,7 @@ menubar.add_cascade(label = 'Opciones', menu = filemenu)
 filemenu.add_command(label = 'Configuración de pantalla', command= lambda: abrir() , font = ('Calibri', 11))
 # DROPDOWN OPTIONS PARA ELEGIR LA PESTANIA DE CONFIGURACION
 def abrir():
-    #global pngGuardar
+    global pngGuardar
     # PANTALLA DE CONFIGURAICON
     ConfHoja = Toplevel()
     ConfHoja.title('Configuación de hoja')
